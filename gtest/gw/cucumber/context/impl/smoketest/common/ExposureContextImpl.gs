@@ -48,7 +48,9 @@ class ExposureContextImpl extends CucumberStepBase implements ExposureContext {
 
   override function createBodilyInjuryExposure() {
     gw.transaction.Transaction.runWithNewBundle(\bundle -> {
-      _exposureWrapper.set(ExposureBuilder.uiReadyForCoverageType(CoverageType.TC_BOD_INJ_PA_EXT)
+      var claim = _claimWrapper.get()
+      bundle.add(claim)
+      _exposureWrapper.set(ExposureBuilder.uiReadyForCoverageType(CoverageType.TC_BOD_INJ_PA_EXT).onClaim(claim)
           .create(bundle))
     }, CurrentUser)
   }
